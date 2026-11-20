@@ -11,7 +11,6 @@
 <meta property="og:url" content="https://kkportfolio-lac.vercel.app">
 <meta name="theme-color" content="#4d7a2e">
 <style>
-/* Base reset */
 *, *::before, *::after { box-sizing: border-box; }
 :root { color-scheme: light; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
 body { margin: 0; font: 14px/1.5 system-ui, sans-serif; -webkit-text-size-adjust: 100%; }
@@ -33,6 +32,7 @@ img { max-width: 100%; }
   --accent-soft: #dfe9cc;
   --mark: #8a6a3a;
   --moon: block; --sun: none;
+  --g1: #2f5f1f; --g2: #7fa83a;
   --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
   --f-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
   --f-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
@@ -40,13 +40,13 @@ img { max-width: 100%; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --paper: #11170e; --surface: #182015; --ink: #e5ebdb; --heading: #b9db96; --muted: #9aa88d;
-    --line: #283322; --accent: #a3c97f; --accent-soft: #22301a; --mark: #cfa86e; --moon: none; --sun: block;
+    --line: #283322; --accent: #a3c97f; --accent-soft: #22301a; --mark: #cfa86e; --moon: none; --sun: block; --g1: #a3c97f; --g2: #dcebab;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --paper: #11170e; --surface: #182015; --ink: #e5ebdb; --heading: #b9db96; --muted: #9aa88d;
-  --line: #283322; --accent: #a3c97f; --accent-soft: #22301a; --mark: #cfa86e; --moon: none; --sun: block;
+  --line: #283322; --accent: #a3c97f; --accent-soft: #22301a; --mark: #cfa86e; --moon: none; --sun: block; --g1: #a3c97f; --g2: #dcebab;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -73,9 +73,19 @@ nav.top a:hover { color: var(--accent); }
 
 /* Hero */
 header.hero { padding-block: 56px 64px; border-bottom: 1px solid var(--line); }
-.hero h1 { font-size: clamp(44px, 8vw, 92px); font-weight: 800; line-height: .95; letter-spacing: -.02em; }
-.hero .role { margin-top: 18px; font-family: var(--f-display); font-weight: 500; font-size: clamp(20px, 3vw, 28px); color: var(--muted); }
-.hero .role b { color: var(--heading); font-weight: 700; }
+.hero h1 { font-size: clamp(42px, 6.6vw, 80px); font-weight: 800; line-height: 1.02; letter-spacing: -.025em; margin-top: 26px; }
+.hello { margin: 24px 0 0; font-family: var(--f-display); font-size: clamp(18px, 2.2vw, 24px); font-weight: 500; color: var(--muted); }
+.hello strong { color: var(--ink); font-weight: 700; }
+.headline .hl { display: block; }
+.headline .grad { background: linear-gradient(90deg, var(--g1), var(--g2)); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; padding-bottom: .04em; width: fit-content; }
+.avail { display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px 8px 14px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 6px 18px -12px color-mix(in srgb, var(--accent) 60%, transparent); font-size: 14px; color: var(--ink); }
+.avail .dot { position: relative; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); }
+@media (prefers-reduced-motion: no-preference) {
+  .avail .dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--accent); animation: ping 2s ease-out infinite; }
+  @keyframes ping { 0% { transform: scale(1); opacity: .55; } 80%, 100% { transform: scale(2.8); opacity: 0; } }
+}
+.hero .role { margin-top: 22px; max-width: 46ch; font-family: var(--f-body); font-weight: 400; font-size: clamp(17px, 2vw, 21px); line-height: 1.5; color: var(--muted); }
+.hero .role b { color: var(--heading); font-weight: 600; }
 .entry {
   margin-top: 36px; max-width: 620px; padding: 20px 22px;
   background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
@@ -248,8 +258,10 @@ nav.top .brand { display: inline-flex; align-items: center; gap: 10px; color: va
 .mark { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: var(--accent); color: var(--surface);
   font-family: var(--f-display); font-weight: 800; font-size: 15px; letter-spacing: -.04em; box-shadow: inset 0 -3px 0 color-mix(in srgb, var(--ink) 25%, transparent); transition: transform .25s ease; }
 .brand:hover .mark { transform: rotate(-6deg); }
-.brand-name { font-family: var(--f-display); font-weight: 700; font-size: 16px; }
-@media (max-width: 560px) { .brand-name { display: none; } }
+.brand-name { font-family: var(--f-display); font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: .06em; color: var(--heading); }
+.brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+.brand-sub { font-family: var(--f-mono); font-size: 11px; color: var(--muted); letter-spacing: .04em; margin-top: 2px; }
+@media (max-width: 560px) { .brand-name { font-size: 14px; letter-spacing: .04em; } }
 
 /* Language switch */
 .lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 2px; background: var(--surface); }
@@ -386,7 +398,7 @@ nav.top a[aria-current="page"] { text-decoration: none; }
 <body>
 <div class="wrap">
 <nav aria-label="Main" class="top" data-fr-aria="Principal">
-<a class="brand" href="#home"><span aria-hidden="true" class="mark">KK</span><span class="brand-name">Khadizhat Khizrieva</span></a>
+<a class="brand" href="#home"><span aria-hidden="true" class="mark">KK</span><span class="brand-text"><span class="brand-name">Khadizhat Khizrieva</span><span class="brand-sub"><span class="i18n" data-fr="Développeuse de logiciels">Software Developer</span></span></span></a>
 <ul>
 <li><a data-nav="home" href="#home"><span class="i18n" data-fr="Accueil">Home</span></a></li>
 <li><a data-nav="projects" href="#projects"><span class="i18n" data-fr="Projets">Projects</span></a></li>
@@ -407,8 +419,8 @@ nav.top a[aria-current="page"] { text-decoration: none; }
 </nav>
 <header class="hero view" data-view="home">
 <canvas aria-hidden="true" id="topo"></canvas>
-<div class="label"><span class="i18n" data-fr="Développeuse de logiciels · Montréal">Software developer · Montréal</span></div>
-<h1 style="margin-top:14px">Khadizhat Khizrieva</h1>
+<div class="avail"><span aria-hidden="true" class="dot"></span><span class="i18n" data-fr="Ouverte aux nouvelles opportunités · Montréal">Open to new opportunities · Montréal</span></div>
+<h1 class="headline"><span class="hl"><span class="i18n" data-fr="Développeuse">Full-Stack</span></span><span class="hl grad"><span class="i18n" data-fr="logiciel">Software</span></span><span class="hl grad"><span class="i18n" data-fr="full-stack">Developer</span></span></h1>
 <p class="role"><span class="i18n" data-fr="Quinze ans à traduire des documents.">Fifteen years translating documents.</span> <b><span class="i18n" data-fr="Aujourd’hui, je traduis des exigences en solutions logicielles.">Now translating requirements into software solutions.</span></b></p>
 <p class="intro"><span class="i18n" data-fr="Je conçois des applications de bureau, mobiles et web en C#, Java, Python, JavaScript et TypeScript, avec une attention particulière à la sécurité, aux tests et à une documentation claire.">I build desktop, mobile and web applications in C#, Java, Python, JavaScript and TypeScript, with a focus on secure, well-tested and clearly documented software.</span></p>
 <div class="cta">
